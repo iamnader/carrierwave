@@ -311,6 +311,8 @@ module CarrierWave
         #
         def directory
           @directory ||= begin
+            # NOTE: we force a "sync" in Fog before each "put"
+            connection.sync_clock
             connection.directories.new(
               :key    => @uploader.fog_directory,
               :public => @uploader.fog_public
